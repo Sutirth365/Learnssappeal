@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses - LearnsAppeal</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* Search bar styling */
+    .search-container {
+      text-align: center;
+      margin-bottom: 40px;
+    }
+
+    .search-container input {
+      padding: 10px;
+      width: 250px;
+      border: 2px solid #FFB347;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .search-container button {
+      padding: 10px 20px;
+      background-color: #FF9F1C;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      transition: 0.3s;
+    }
+
+    .search-container button:hover {
+      background-color: #e68900;
+    }
+
+    /* Keep View PDF button near bottom edge */
+    .course-box {
+      position: relative;
+      padding-bottom: 60px;
+    }
+
+    .course-box a {
+      position: absolute;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    /* Message when no course is found */
+    #noResults {
+      display: none;
+      text-align: center;
+      color: #e65c00;
+      font-weight: 600;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+
+    /* Navbar & layout for mobile */
+    @media (max-width: 768px) {
+      header nav ul {
+        gap: 15px;
+      }
+      header .logo {
+        font-size: 22px;
+      }
+      .search-container input {
+        width: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">LearnsAppeal</div>
+    <nav>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="courses.html" class="active">Courses</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section class="courses-section">
+    <h1>LearnsAppeal Courses</h1>
+
+    <!-- Search Bar -->
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search for a course...">
+      <button id="searchButton">Search</button>
+    </div>
+
+    <!-- Courses -->
+    <div class="courses-container" id="coursesList">
+      <div class="course-box">
+        <img src="img1.jpg" alt="AI Course">
+        <h3>Artificial Intelligence</h3>
+        <a href="ai-course.pdf" target="_blank">View PDF</a>
+      </div>
+
+      <div class="course-box">
+        <img src="img2.jpg" alt="Python Course">
+        <h3>Python Programming</h3>
+        <a href="python-course.pdf" target="_blank">View PDF</a>
+      </div>
+
+      <div class="course-box">
+        <img src="img3.jpg" alt="Web Development Course">
+        <h3>Web Development</h3>
+        <a href="webdev-course.pdf" target="_blank">View PDF</a>
+      </div>
+
+      <div class="course-box">
+        <img src="img4.jpg" alt="Machine Learning Course">
+        <h3>Machine Learning</h3>
+        <a href="ml-course.pdf" target="_blank">View PDF</a>
+      </div>
+    </div>
+
+    <p id="noResults">No courses found for your search.</p>
+  </section>
+
+  <footer>
+    <p>© 2025 LearnsAppeal. All rights reserved.</p>
+  </footer>
+
+  <!-- Live + Enter Search Script -->
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchButton = document.getElementById('searchButton');
+    const boxes = document.querySelectorAll('.course-box');
+    const noResults = document.getElementById('noResults');
+
+    function filterCourses() {
+      const input = searchInput.value.toLowerCase();
+      let found = false;
+
+      boxes.forEach(box => {
+        const title = box.querySelector('h3').innerText.toLowerCase();
+        if (title.includes(input)) {
+          box.style.display = 'block';
+          found = true;
+        } else {
+          box.style.display = 'none';
+        }
+      });
+
+      if (!found && input.trim() !== '') {
+        noResults.style.display = 'block';
+      } else {
+        noResults.style.display = 'none';
+      }
+    }
+
+    // Live search as typing
+    searchInput.addEventListener('input', filterCourses);
+
+    // Allow pressing Enter key
+    searchInput.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        filterCourses();
+      }
+    });
+
+    // Also filter when clicking button
+    searchButton.addEventListener('click', filterCourses);
+  </script>
+</body>
+</html>
